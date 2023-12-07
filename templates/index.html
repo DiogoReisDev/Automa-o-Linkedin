@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automação Linkedin</title>
+
+    <!-- Link para o Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Link para arquivos de estilos personalizados (style.css) -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Link para o jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <!-- Link para o Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Link para o Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid bg-dark">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6">
+                <div class="card bg-transparent border-light p-4">
+                    <h2 class="text-light text-center mb-4">Preencha suas Credenciais</h2>
+                    <form id="formulario" method="POST" onsubmit="enviarDados();">
+                        <div class="form-group">
+                            <label for="email" class="text-light">Email:</label>
+                            <input type="text" id="email" name="email" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="senha" class="text-light">Senha:</label>
+                            <input type="password" id="senha" name="senha" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="palavras_chave" class="text-light">Palavras Chave</label>
+                            <input type="text" id="palavras_chave" name="palavras_chave" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="texto_personalizado" class="text-light">Texto Personalizado:</label>
+                            <textarea id="texto_personalizado" name="texto_personalizado" class="form-control"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-light btn-block">Iniciar Automação</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    document.getElementById('formulario').addEventListener('submit', function (event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    enviarDados(); // Chama a função enviarDados() manualmente
+});
+function enviarDados() {
+    var email = document.getElementById('email').value;
+    var senha = document.getElementById('senha').value;
+    var texto_personalizado = document.getElementById('texto_personalizado').value;
+    var palavras_chave = document.getElementById('palavras_chave').value;
+
+    fetch('http://127.0.0.1:5000/rota_para_receber_dados', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email, senha: senha, texto_personalizado: texto_personalizado, palavras_chave: palavras_chave}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Dados enviados com sucesso!');
+    })
+    .catch((error) => {
+        console.error('Erro ao enviar dados:', error);
+    });
+}
+</script>
+</body>
+</html>
+
